@@ -8,14 +8,14 @@ function($scope, $http) {
   $scope.computerMarker;
 
   $scope.board = {
-    "A1": "X",
-    "A2": "O",
-    "A3": "X",
-    "B1": "O",
-    "B2": "X",
+    "A1": " ",
+    "A2": " ",
+    "A3": " ",
+    "B1": " ",
+    "B2": " ",
     "B3": " ",
-    "C1": "X",
-    "C2": "O",
+    "C1": " ",
+    "C2": " ",
     "C3": " "
   }
 
@@ -95,8 +95,11 @@ function($scope, $http) {
 }
 
   $scope.playerPickSquare = function(chosenSquare, playerMarker) {
+    console.log("Making it to playerPickSquare and chosenSquare = ", chosenSquare)
     if($scope.squareAvailability(chosenSquare)) {
       $scope.board[chosenSquare] = playerMarker;
+      $scope.randoComputerMove();
+      $scope.checkForWinner();
     }
     else {
       console.log("That's square's already taken, my friend");
@@ -142,22 +145,21 @@ function($scope, $http) {
       || $scope.board[threeInARow[everyThirdInc][counter]] == "O" && $scope.board[threeInARow[everyThirdInc][counter + 1]] == "O" && $scope.board[threeInARow[everyThirdInc][counter + 2]] == "O") {
         winner = true;
           console.log("We've got ourselves a weiner!");
+          return true;
           break
         }
         //Tie (All Squares occupied and no winner)
         else if (winner == false){
-          var newCounter = 0;
           for(var key in $scope.board) {
-            newCounter++;
-            console.log("HOW MANY TIMES AM I GETTING CALLED??? ", newCounter);
             var value = $scope.board[key];
             if(value == " ") {
               openSpaces.push(value)
-              console.log(key, " is available")
+              // console.log(key, " is available")
             }
           }
           if(openSpaces.length == 0) {
             console.log("It's a tie!");
+            return true;
             break
           }
         }
@@ -168,9 +170,18 @@ function($scope, $http) {
       }
     }
   }
-  // $scope.choseMarker();
-  // $scope.playersChoice();
+
+  $scope.choseMarker();
+  // $scope.game = function() {
+  //   while(!checkForWinner()) {
+  //     console.log("we still going!");
+  //   }
+  // }
+
+  // $scope.playerPickSquare();
   // $scope.randoComputerMove();
+  // $scope.checkForWinner();
+
   //
   // $scope.playersChoice();
   // $scope.randoComputerMove();
