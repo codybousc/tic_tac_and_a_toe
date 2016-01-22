@@ -3,10 +3,14 @@ ticTacAndAToe = angular.module("ticTacAndAToe", [])
 ticTacAndAToe.controller('GameController', ['$scope','$http',
 function($scope, $http) {
 
+  $scope.chosenSquare;
+  $scope.playerMarker;
+  $scope.computerMarker;
+
   $scope.board = {
-    "A1": "X",
-    "A2": "X",
-    "A3": "X",
+    "A1": " ",
+    "A2": " ",
+    "A3": " ",
     "B1": " ",
     "B2": " ",
     "B3": " ",
@@ -19,12 +23,30 @@ function($scope, $http) {
 
   $scope.player = {
     "name": " ",
-    "Marker": " "
+    "playerMarker": " "
   }
 
   $scope.computer = {
     "name": "R2D2",
-    "marker": " "
+    "computerMarker": " "
+  }
+
+  $scope.choseMarker = function() {
+    $scope.playerMarker = prompt("Chose your marker, X or O");
+    if($scope.playerMarker == "X") {
+      $scope.computerMarker = "O";
+    }
+    else {
+      $scope.computerMarker = "X";
+    }
+    console.log("Player's marker = ", $scope.playerMarker);
+    console.log("Computer's marker = ", $scope.computerMarker)
+  }
+
+  $scope.playersChoice = function() {
+    $scope.$chosenSquare = prompt("Enter an available square, bro");
+    $scope.playerPickSquare($scope.$chosenSquare, $scope.playerMarker)
+
   }
 
   $scope.squareAvailability = function(specificKey) {
@@ -74,9 +96,9 @@ function($scope, $http) {
     return array;
 }
 
-  $scope.pickSquare = function(chosenSquare, marker) {
+  $scope.playerPickSquare = function(chosenSquare, playerMarker) {
     if($scope.squareAvailability(chosenSquare)) {
-      $scope.board[chosenSquare] = marker;
+      $scope.board[chosenSquare] = playerMarker;
       console.log("pickSquare ", $scope.board);
     }
     else {
@@ -85,7 +107,8 @@ function($scope, $http) {
   }
 
 // TODO right now, this is just iterating through the object and placing the marker in numberical order. not exactly random. also doesn't choose if site is already taken
-  $scope.randoComputerMove = function(marker) {
+  $scope.randoComputerMove = function() {
+    var computerMarker = $scope.computerMarker;
     var boardKeys = Object.keys($scope.board); //returns an array of $scope.board keys
     var counter = 0;
     for(var i = 0; i < boardLength; i++) {
@@ -93,7 +116,7 @@ function($scope, $http) {
       if($scope.squareAvailability(boardKeys[i])) {
         console.log("PASSING FIRST CONDITIONAL");
         // console.log("KEY = ", boardKeys[i]);
-        $scope.board[boardKeys[i]] = marker;
+        $scope.board[boardKeys[i]] = computerMarker;
         // console.log($scope.squareAvailability(key), $scope.board[key]);
         // counter+=1
         // console.log(counter);
@@ -107,8 +130,8 @@ function($scope, $http) {
           console.log("I is = to ", i)
           if($scope.squareAvailability(boardKeys[i])) {
             console.log("PASSING SECOND CONDITIONAL");
-            console.log(boardKeys[i], "= ", marker);
-            $scope.board[boardKeys[i]] = marker;
+            console.log(boardKeys[i], "= ", computerMarker);
+            $scope.board[boardKeys[i]] = computerMarker;
             console.log("randoComputerMove ", $scope.board);
             break
           }
@@ -139,24 +162,25 @@ function($scope, $http) {
         everyThirdInc++;
         nopeCounter++;
       }
-
-      // counter++;
-      // if(counter == 3) {
-      //   counter = 0;
-      //   everyThirdInc++;
-      // }
-
     }
   }
-  // $scope.pickSquare("C1", "X");
-  // $scope.randoComputerMove("O");
-  // $scope.checkForWinner();
-  // $scope.pickSquare("C2", "X");
-  $scope.randoComputerMove("O");
+  $scope.choseMarker();
+  $scope.playersChoice();
+  $scope.randoComputerMove();
+
+  $scope.playersChoice();
+  $scope.randoComputerMove();
+
+  $scope.playersChoice();
   $scope.checkForWinner();
-  // $scope.pickSquare("C3", "X");
-  // $scope.randoComputerMove("O");
-  // $scope.checkForWinner();
+  $scope.randoComputerMove();
+  $scope.checkForWinner();
+
+  $scope.playersChoice();
+  $scope.checkForWinner();
+  $scope.randoComputerMove();
+  $scope.checkForWinner();
+
 
 
 }]);
