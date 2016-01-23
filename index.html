@@ -1,43 +1,27 @@
 
 <!DOCTYPE html>
-<html ng-app="ticTacAndAToe" ng-controller="GameController">
+<html >
 <head>
  <title>Tic Tac and a Toe </title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/mystyles.css" type="text/css">
 <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 </head>
-  <body>
-{{board}}
+  <body ng-app="ticTacAndAToe" ng-controller="GameController">
+
   <div class="container outerContainer">
+    <div class="square firstRow" ng-click="playerPickSquare('A1'); randoComputerMove(); checkForOpenSpaces(); checkForWinner();"><span class="marker">{{board["A1"]}}</span></div>
+    <div class="square firstRow" ng-click="playerPickSquare('A2'); randoComputerMove(); checkForOpenSpaces(); checkForWinner();"><span class="marker">{{board["A2"]}}</span></div>
+    <div class="square firstRow" ng-click="playerPickSquare('A3'); randoComputerMove(); checkForOpenSpaces(); checkForWinner();"><span class="marker">{{board["A3"]}}</span></div> <br>
 
-    <div class="square firstRow" ng-click="playerPickSquare('A1')"><span class="marker">{{board["A1"]}}</span></div>
-    <div class="square firstRow" ng-click="playerPickSquare('A2')"><span class="marker">{{board["A2"]}}</span></div>
-    <div class="square firstRow" ng-click="playerPickSquare('A3')"><span class="marker">{{board["A3"]}}</span></div> <br>
+    <div class="square secondRow" ng-click="playerPickSquare('B1'); randoComputerMove(); checkForOpenSpaces(); checkForWinner();"><span class="marker">{{board["B1"]}}</span></div>
+    <div class="square secondRow" ng-click="playerPickSquare('B2'); randoComputerMove(); checkForOpenSpaces(); checkForWinner();"><span class="marker">{{board["B2"]}}</span></div>
+    <div class="square secondRow" ng-click="playerPickSquare('B3'); randoComputerMove(); checkForOpenSpaces(); checkForWinner();"><span class="marker">{{board["B3"]}}</span></div> <br>
 
-    <div class="square secondRow" ng-click="playerPickSquare('B1')"><span class="marker">{{board["B1"]}}</span></div>
-    <div class="square secondRow" ng-click="playerPickSquare('B2')"><span class="marker">{{board["B2"]}}</span></div>
-    <div class="square secondRow" ng-click="playerPickSquare('B3')"><span class="marker">{{board["B3"]}}</span></div> <br>
-
-    <div class="square thirdRow" ng-click="playerPickSquare('C1')"><span class="marker">{{board["C1"]}}</span></div>
-    <div class="square thirdRow" ng-click="playerPickSquare('C2')"><span class="marker">{{board["C2"]}}</span></div>
-    <div class="square thirdRow" ng-click="playerPickSquare('C3')"><span class="marker">{{board["C3"]}}</span></div> <br>
-
+    <div class="square thirdRow" ng-click="playerPickSquare('C1'); randoComputerMove(); checkForOpenSpaces(); checkForWinner();"><span class="marker">{{board["C1"]}}</span></div>
+    <div class="square thirdRow" ng-click="playerPickSquare('C2'); randoComputerMove(); checkForOpenSpaces(); checkForWinner();"><span class="marker">{{board["C2"]}}</span></div>
+    <div class="square thirdRow" ng-click="playerPickSquare('C3'); randoComputerMove(); checkForOpenSpaces(); checkForWinner();"><span class="marker">{{board["C3"]}}</span></div> <br>
   </div>
-
-
-
-
-
-
-    <!--
-    <div class="leftVertical"> </div>
-    <div class="topHorizontal"></div>
-    <div class="bottomHorizontal"></div> -->
-
-
-
-
 
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
