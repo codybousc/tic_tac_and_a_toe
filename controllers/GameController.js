@@ -164,10 +164,17 @@ function($scope, $http) {
       if($scope.board[threeInARow[everyThirdInc][counter]] == "X" && $scope.board[threeInARow[everyThirdInc][counter + 1]] == "X" && $scope.board[threeInARow[everyThirdInc][counter + 2]] == "X"
       || $scope.board[threeInARow[everyThirdInc][counter]] == "O" && $scope.board[threeInARow[everyThirdInc][counter + 1]] == "O" && $scope.board[threeInARow[everyThirdInc][counter + 2]] == "O") {
         $scope.winner = true;
-          prompt("We've got ourselves a weeeeiner!");
-          console.log("We've got ourselves a weiner!");
+        if($scope.board[threeInARow[everyThirdInc][counter]] == $scope.playerMarker) {
+          prompt("Player is a weeeeiner!");
           return true;
           break
+        }
+        else if ($scope.board[threeInARow[everyThirdInc][counter]] == $scope.computerMarker) {
+          prompt("Computer Wins!");
+          return true;
+          break
+        }
+
         }
         //Tie (All Squares occupied and no winner)
         else if ($scope.allSquaresOccupied){

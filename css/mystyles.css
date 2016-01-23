@@ -1,8 +1,11 @@
+body {
+  background-color: #475577;
+}
 
 .square {
   width: 15%;
   height: 15%;
-  background-color: black;
+  background-color: #FAC51C;
   margin-bottom: .5%;
   margin-right: .5%;
 
@@ -10,7 +13,7 @@
 
 .marker {
   font-size: 85px;
-  color: white;
+  color: #475577;
   text-align: center;
   margin-left: 35%;
 }
