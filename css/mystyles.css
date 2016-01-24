@@ -1,5 +1,6 @@
 body {
   background-color: #475577;
+  font-family: Lato, sans-serif;
 }
 
 .square {
@@ -9,6 +10,13 @@ body {
   margin-bottom: .5%;
   margin-right: .5%;
 
+}
+
+.title {
+  font-size: 55px;
+  color: #FAC51C;
+  text-align: center;
+  margin-top: 3%;
 }
 
 .marker {
@@ -31,42 +39,6 @@ body {
 }
 
 .outerContainer {
-  margin-top: 10%;
-  margin-left: 35%;
+  margin-top: 5%;
+  margin-left: 31.5%;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* .topHorizontal {
-  margin-top: 20%;
-  margin-left: 25%;
-  height: 15px;
-  width: 800px;
-  background-color: black;
-}
-
-.bottomHorizontal {
-  margin-top: 10%;
-  margin-left: 25%;
-  height: 15px;
-  width: 800px;
-  background-color: black;
-}
-
-.leftVertical {
-  height: 800px;
-  width: 15px;
-  background-color: black;
-  margin-left: 40%;
-} */

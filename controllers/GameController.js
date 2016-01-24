@@ -23,6 +23,21 @@ function($scope, $http) {
     "C3": " "
   }
 
+  $scope.restartGame = function() {
+    $scope.board = {
+      "A1": " ",
+      "A2": " ",
+      "A3": " ",
+      "B1": " ",
+      "B2": " ",
+      "B3": " ",
+      "C1": " ",
+      "C2": " ",
+      "C3": " "
+    }
+    
+  }
+
   var boardLength = Object.keys($scope.board).length;
 
   $scope.player = {
@@ -45,11 +60,6 @@ function($scope, $http) {
     }
     console.log("Player's marker = ", $scope.playerMarker);
     console.log("Computer's marker = ", $scope.computerMarker)
-  }
-
-  $scope.playersChoice = function() {
-    $scope.$chosenSquare = prompt("Enter an available square, bro");
-    $scope.playerPickSquare($scope.$chosenSquare, $scope.playerMarker)
   }
 
   $scope.squareAvailability = function(specificKey) {
@@ -103,8 +113,6 @@ function($scope, $http) {
     playerMarker = $scope.playerMarker;
     if($scope.squareAvailability(chosenSquare)) {
       $scope.board[chosenSquare] = playerMarker;
-      // $scope.randoComputerMove();
-      // $scope.checkForWinner();
     }
     else {
       console.log("That's square's already taken, my friend");
@@ -147,6 +155,7 @@ function($scope, $http) {
         }
       }//return true if no spaces available
         if(openSpaces.length == 0) {
+          console.log("No open spaces left, browski!")
           $scope.allSquaresOccupied = true;
         }
   }
@@ -156,7 +165,7 @@ function($scope, $http) {
     //Check if winning lines are occupied && occupied by the same marker
     console.log("Making it to checkForWinner")
     var boardLength = Object.keys($scope.board).length;
-    var threeInARow = [["A1", "A2", "A3"], ["B1", "B2", "B3"], ["C1", "C2", "C3"], ["A1", "B1", "C1"], ["A2", "B2", "B3"], ["C1", "C2", "C3" ], ["A1", "B2", "C3"], ["C1", "B2", "A3"]];
+    var threeInARow = [["A1", "A2", "A3"], ["B1", "B2", "B3"], ["C1", "C2", "C3"], ["A1", "B1", "C1"], ["A2", "B2", "C2"], ["A3", "B3", "C3" ], ["A1", "B2", "C3"], ["C1", "B2", "A3"]];
     var counter = 0;
     var everyThirdInc = 0;
     var nopeCounter = 0;
@@ -164,21 +173,24 @@ function($scope, $http) {
       if($scope.board[threeInARow[everyThirdInc][counter]] == "X" && $scope.board[threeInARow[everyThirdInc][counter + 1]] == "X" && $scope.board[threeInARow[everyThirdInc][counter + 2]] == "X"
       || $scope.board[threeInARow[everyThirdInc][counter]] == "O" && $scope.board[threeInARow[everyThirdInc][counter + 1]] == "O" && $scope.board[threeInARow[everyThirdInc][counter + 2]] == "O") {
         $scope.winner = true;
-        if($scope.board[threeInARow[everyThirdInc][counter]] == $scope.playerMarker) {
-          prompt("Player is a weeeeiner!");
-          return true;
-          break
+            if($scope.board[threeInARow[everyThirdInc][counter]] == $scope.playerMarker) {
+              prompt("Player is a weeeeiner!");
+              $scope.restartGame();
+              // return true;//Is this needed? I forget what this was for.
+              break
+            }
+            else if ($scope.board[threeInARow[everyThirdInc][counter]] == $scope.computerMarker) {
+              prompt("Computer Wins!");
+              $scope.restartGame();
+              // return true;
+              break
+            }
         }
-        else if ($scope.board[threeInARow[everyThirdInc][counter]] == $scope.computerMarker) {
-          prompt("Computer Wins!");
-          return true;
-          break
-        }
-
-        }
+        //ERROR HERE: THIS IS NEVER GETTING CALLED
         //Tie (All Squares occupied and no winner)
         else if ($scope.allSquaresOccupied){
           prompt("It's a tie!");
+          $scope.restartGame();
           break
 
         }
