@@ -10,17 +10,17 @@
   <body ng-app="ticTacAndAToe" ng-controller="GameController">
   <h1 class="title">Tic Tac and a Toe</h1>
   <div class="container outerContainer">
-    <div class="square firstRow" ng-click="playerPickSquare('A1'); checkForWinner(); checkForOpenSpaces();  randoComputerMove(); checkForWinner(); checkForOpenSpaces(); "><span class="marker">{{board["A1"]}}</span></div>
-    <div class="square firstRow" ng-click="playerPickSquare('A2'); checkForWinner(); checkForOpenSpaces();  randoComputerMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["A2"]}}</span></div>
-    <div class="square firstRow" ng-click="playerPickSquare('A3');  checkForWinner(); checkForOpenSpaces();  randoComputerMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["A3"]}}</span></div> <br>
+    <div class="square firstRow" ng-click="playerPickSquare('A1'); checkForWinner(); checkForOpenSpaces();  computerAIMove(); checkForWinner(); checkForOpenSpaces(); "><span class="marker">{{board["A1"]}}</span></div>
+    <div class="square firstRow" ng-click="playerPickSquare('A2'); checkForWinner(); checkForOpenSpaces();  computerAIMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["A2"]}}</span></div>
+    <div class="square firstRow" ng-click="playerPickSquare('A3');  checkForWinner(); checkForOpenSpaces();  computerAIMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["A3"]}}</span></div> <br>
 
-    <div class="square secondRow" ng-click="playerPickSquare('B1'); checkForWinner(); checkForOpenSpaces();  randoComputerMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["B1"]}}</span></div>
-    <div class="square secondRow" ng-click="playerPickSquare('B2'); checkForWinner(); checkForOpenSpaces();  randoComputerMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["B2"]}}</span></div>
-    <div class="square secondRow" ng-click="playerPickSquare('B3'); checkForWinner(); checkForOpenSpaces();  randoComputerMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["B3"]}}</span></div> <br>
+    <div class="square secondRow" ng-click="playerPickSquare('B1'); checkForWinner(); checkForOpenSpaces();  computerAIMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["B1"]}}</span></div>
+    <div class="square secondRow" ng-click="playerPickSquare('B2'); checkForWinner(); checkForOpenSpaces();  computerAIMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["B2"]}}</span></div>
+    <div class="square secondRow" ng-click="playerPickSquare('B3'); checkForWinner(); checkForOpenSpaces();  computerAIMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["B3"]}}</span></div> <br>
 
-    <div class="square thirdRow" ng-click="playerPickSquare('C1'); checkForWinner(); checkForOpenSpaces();  randoComputerMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["C1"]}}</span></div>
-    <div class="square thirdRow" ng-click="playerPickSquare('C2'); checkForWinner(); checkForOpenSpaces();  randoComputerMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["C2"]}}</span></div>
-    <div class="square thirdRow" ng-click="playerPickSquare('C3'); checkForWinner(); checkForOpenSpaces();  randoComputerMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["C3"]}}</span></div> <br>
+    <div class="square thirdRow" ng-click="playerPickSquare('C1'); checkForWinner(); checkForOpenSpaces();  computerAIMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["C1"]}}</span></div>
+    <div class="square thirdRow" ng-click="playerPickSquare('C2'); checkForWinner(); checkForOpenSpaces();  computerAIMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["C2"]}}</span></div>
+    <div class="square thirdRow" ng-click="playerPickSquare('C3'); checkForWinner(); checkForOpenSpaces();  computerAIMove(); checkForWinner(); checkForOpenSpaces();"><span class="marker">{{board["C3"]}}</span></div> <br>
   </div>
 
   <script src="bower_components/angular/angular.js"></script>
