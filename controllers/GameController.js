@@ -120,27 +120,32 @@ function($scope, $http) {
     var counter = 0;
     for(var i = 0; i < twoInaRowArray.length; i++) {
       //TODO Each Condition needs to check for two cases: If Player two in a row = update defenseTargetSquare && If Computer Two in a row = update attackTargetSquare
+      console.log("Line 123 ", twoInaRowArray[enumerator][counter] + "= ",  $scope.board[twoInaRowArray[enumerator][counter]], "and ", twoInaRowArray[enumerator][counter + 1] + "= ",  $scope.board[twoInaRowArray[enumerator][counter + 1]]);
+      console.log("enumerator = ", enumerator + " and counter = ", counter);
+      console.log("==================================================");
       if($scope.board[twoInaRowArray[enumerator][counter]] == $scope.computerMarker && $scope.board[twoInaRowArray[enumerator][counter + 1]] == $scope.computerMarker) {
         $scope.attackTargetSquare = twoInaRowArray[enumerator][counter + 2];
+        console.log("Two in a row if Attack ============================================ $scope.attackTargetSquare ", $scope.attackTargetSquare)
 
          if($scope.board[twoInaRowArray[enumerator][counter]] == $scope.playerMarker && $scope.board[twoInaRowArray[enumerator][counter + 1]] == $scope.playerMarker) {
-          $scope.defenseTargetSquare = twoInaRowArray[enumerator][counter + 2];
-          // console.log("line 134 twoin a row player conditional target Square = ", $scope.defenseTargetSquare );
+           $scope.defenseTargetSquare = twoInaRowArray[enumerator][counter + 2];
+           console.log("Two in a row NESTED if Defense ============================================ $scope.defenseTargetSquare ", $scope.defenseTargetSquare )
+           break;
         }
 
       }
       else if($scope.board[twoInaRowArray[enumerator][counter]] == $scope.playerMarker && $scope.board[twoInaRowArray[enumerator][counter + 1]] == $scope.playerMarker) {
         $scope.defenseTargetSquare = twoInaRowArray[enumerator][counter + 2];
-        // console.log("line 134 twoin a row player conditional target Square = ", $scope.defenseTargetSquare );
+        console.log("Two in a row Else IF DEFENSE ============================================ $scope.defenseTargetSquare ", $scope.defenseTargetSquare)
+        break;
       }
-
       enumerator++
     }
   }
 
   $scope.computerAIMove = function() {
     console.log("Making it to computerAIMove");
-    console.log("==========================================");
+    console.log("######################################################################");
     var defenseTargetSquare = $scope.defenseTargetSquare;
     var attackTargetSquare = $scope.attackTargetSquare;
     var computerMarker = $scope.computerMarker;
@@ -161,7 +166,7 @@ function($scope, $http) {
     else if(computerMoveCount == 1) {
       console.log("Making it to second move")
       computerMoveCount++;
-      if($scope.defenseTargetSquare) {
+      if($scope.defenseTargetSquare && $scope.board[defenseTargetSquare] == " ") {
         console.log("Move 2 Line 164 Defensive Target Square! ", defenseTargetSquare);
         $scope.board[defenseTargetSquare] = computerMarker;
       }
@@ -179,7 +184,7 @@ function($scope, $http) {
     else if(computerMoveCount > 1) {
       console.log("making it to third move ", "defTar ", defenseTargetSquare, "attaTar ", attackTargetSquare)
       //Defensive Move
-      //TODO NEED A DIFFERENT CONDITIONAL HERE. 
+      //TODO NEED A DIFFERENT CONDITIONAL HERE.
       if ($scope.attackTargetSquare && $scope.board[attackTargetSquare] == " ") {
         console.log("Move 3 Line 180 attack Square", attackTargetSquare);
         $scope.board[attackTargetSquare] = computerMarker;
@@ -263,14 +268,14 @@ function($scope, $http) {
             if($scope.board[threeInARow[everyThirdInc][counter]] == $scope.playerMarker) {
               prompt("Player is a winna!");
               console.log("Winning moves = ", threeInARow[everyThirdInc]);
-              break
-              // $scope.restartGame();
+              $scope.restartGame();
+              break;
             }
             else if ($scope.board[threeInARow[everyThirdInc][counter]] == $scope.computerMarker) {
               prompt("Computer Wins!");
               console.log("Winning moves = ", threeInARow[everyThirdInc]);
-              break
-              // $scope.restartGame();
+              $scope.restartGame();
+              break;
             }
         }
         //Tie (All Squares occupied and no winner)
