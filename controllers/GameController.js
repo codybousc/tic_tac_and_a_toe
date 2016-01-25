@@ -10,6 +10,7 @@ function($scope, $http) {
   $scope.allSquaresOccupied = false;
   $scope.winner = false;
   var computerMoveCount = 0;
+  var playerMoveCount = 0;
   $scope.defenseTargetSquare;
   $scope.attackTargetSquare;
 
@@ -39,7 +40,15 @@ function($scope, $http) {
       "C3": " "
     }
 
-    computerMoveCount = 0;
+
+    $scope.chosenSquare = undefined;
+    $scope.openSpaces = [];
+    $scope.allSquaresOccupied = false;
+    $scope.winner = false;
+    var computerMoveCount = 0;
+    var playerMoveCount = 0;
+    $scope.defenseTargetSquare = undefined;
+    $scope.attackTargetSquare = undefined;
 
   }
 
@@ -91,27 +100,8 @@ function($scope, $http) {
     }
   }
 
-  function shuffle(array) {
-    var counter = array.length, temp, index;
-
-    // While there are elements in the array
-    while (counter > 0) {
-        // Pick a random index
-        index = Math.floor(Math.random() * counter);
-
-        // Decrease counter by 1
-        counter--;
-
-        // And swap the last element with it
-        temp = array[counter];
-        array[counter] = array[index];
-        array[index] = temp;
-    }
-
-    return array;
-}
-
   $scope.playerPickSquare = function(chosenSquare, playerMarker) {
+    playerMoveCount++;
     playerMarker = $scope.playerMarker;
     if($scope.squareAvailability(chosenSquare)) {
       $scope.board[chosenSquare] = playerMarker;
@@ -123,32 +113,42 @@ function($scope, $http) {
 
   $scope.twoInaRow = function() {
     var twoInaRowArray = [["A1", "A2", "A3"], ["A2", "A3", "A1"], ["B1", "B2", "B3"], ["B2", "B3", "B1"], ["C1", "C2", "C3"], ["C2", "C3", "C1"],
-                          ["A1", "B1", "C1"], ["B1", "C1", "A1"], ["A2", "B2", "C2"], ["B2", "C2", "A2"],["A3", "B3", "C3"], ["B3", "C3", "A3"], ["A2", "B2", "C3"],
+                          ["A1", "B1", "C1"], ["B1", "C1", "A1"], ["A2", "B2", "C2"], ["B2", "C2", "A2"],["A3", "B3", "C3"], ["B3", "C3", "A3"], ["A1", "B2", "C3"],
                            ["B2", "C3", "A1"], ["C1", "B2", "A3"], ["A3", "B2", "C1"]];
 
     var enumerator = 0;
     var counter = 0;
     for(var i = 0; i < twoInaRowArray.length; i++) {
-      // console.log("line 129 = ", $scope.board[twoInaRowArray[enumerator][counter]])
-      if($scope.board[twoInaRowArray[enumerator][counter]] == $scope.playerMarker && $scope.board[twoInaRowArray[enumerator][counter + 1]] == $scope.playerMarker) {
+      //TODO Each Condition needs to check for two cases: If Player two in a row = update defenseTargetSquare && If Computer Two in a row = update attackTargetSquare
+      if($scope.board[twoInaRowArray[enumerator][counter]] == $scope.computerMarker && $scope.board[twoInaRowArray[enumerator][counter + 1]] == $scope.computerMarker) {
+        $scope.attackTargetSquare = twoInaRowArray[enumerator][counter + 2];
+
+         if($scope.board[twoInaRowArray[enumerator][counter]] == $scope.playerMarker && $scope.board[twoInaRowArray[enumerator][counter + 1]] == $scope.playerMarker) {
+          $scope.defenseTargetSquare = twoInaRowArray[enumerator][counter + 2];
+          // console.log("line 134 twoin a row player conditional target Square = ", $scope.defenseTargetSquare );
+        }
+
+      }
+      else if($scope.board[twoInaRowArray[enumerator][counter]] == $scope.playerMarker && $scope.board[twoInaRowArray[enumerator][counter + 1]] == $scope.playerMarker) {
         $scope.defenseTargetSquare = twoInaRowArray[enumerator][counter + 2];
         // console.log("line 134 twoin a row player conditional target Square = ", $scope.defenseTargetSquare );
       }
-      else if($scope.board[twoInaRowArray[enumerator][counter]] == $scope.computerMarker && $scope.board[twoInaRowArray[enumerator][counter + 1]] == $scope.computerMarker) {
-        $scope.attackTargetSquare = twoInaRowArray[enumerator][counter + 2];
-        // console.log("line 138 twoin a row computer conditional target Square = ", $scope.attackTargetSquare );
-      }
+
       enumerator++
     }
   }
 
   $scope.computerAIMove = function() {
+    console.log("Making it to computerAIMove");
+    console.log("==========================================");
     var defenseTargetSquare = $scope.defenseTargetSquare;
     var attackTargetSquare = $scope.attackTargetSquare;
     var computerMarker = $scope.computerMarker;
 
     //first move
     if (computerMoveCount == 0) {
+      console.log("Making it to computerAIMove First Move");
+
       computerMoveCount++;
       if($scope.board["B2"] == " ") {
         $scope.board["B2"] = computerMarker;
@@ -159,6 +159,7 @@ function($scope, $http) {
     }
     //second move
     else if(computerMoveCount == 1) {
+      console.log("Making it to second move")
       computerMoveCount++;
       if($scope.defenseTargetSquare) {
         console.log("Move 2 Line 164 Defensive Target Square! ", defenseTargetSquare);
@@ -175,75 +176,35 @@ function($scope, $http) {
       }
     }
     //third move (Defensive && Attack Move) TODO Figure out a way not to hard code the Defensive portion
-    else if(computerMoveCount == 2) {
+    else if(computerMoveCount > 1) {
+      console.log("making it to third move ", "defTar ", defenseTargetSquare, "attaTar ", attackTargetSquare)
       //Defensive Move
-      //NEED A DIFFERENT CONDITIONAL HERE. Both defensiveTargetSquare and attackTargetSquare may already have values
-      if($scope.defenseTargetSquare) {
+      //TODO NEED A DIFFERENT CONDITIONAL HERE. 
+      if ($scope.attackTargetSquare && $scope.board[attackTargetSquare] == " ") {
+        console.log("Move 3 Line 180 attack Square", attackTargetSquare);
+        $scope.board[attackTargetSquare] = computerMarker;
+      }
+      else if($scope.defenseTargetSquare && playerMoveCount >= 2 && $scope.board[defenseTargetSquare] == " ") {
         console.log("Move 3 Line 181 hitting Defense Square! ", defenseTargetSquare);
         $scope.board[defenseTargetSquare] = computerMarker;
       }
-      else if ($scope.attackTargetSquare) {
-        console.log("Move 3 Line 181 hitting Defense Square! ", attackTargetSquare);
-        $scope.board[attackTargetSquare] = computerMarker;
-      }
-      // else if($scope.board["A1"] != " " && $scope.board["A2"] != " ") {
-      //   $scope.board["A3"] = computerMarker;
-      // }
-      // else if ($scope.board["A2"] != " " && $scope.board["A3"] != " ") {
-      //   $scope.board["A1"] = computerMarker;
-      // }
-      // else if ($scope.board["B1"] != " " && $scope.board["B2"] != " ") {
-      //   $scope.board["B3"] = computerMarker;
-      // }
-      // else if ($scope.board["B2"] != " " && $scope.board["B3"] != " ") {
-      //   $scope.board["B1"] = computerMarker;
-      // }
-      // else if ($scope.board["C1"] != " " && $scope.board["C2"] != " ") {
-      //   $scope.board["C3"] = computerMarker;
-      // }
-      // else if ($scope.board["C2"] != " " && $scope.board["C3"] != " ") {
-      //   $scope.board["C1"] = computerMarker;
-      // }
-      // else if ($scope.board["A1"] != " " && $scope.board["B1"] != " ") {
-      //   $scope.board["C1"] = computerMarker;
-      // }
-      // else if ($scope.board["B1"] != " " && $scope.board["C1"] != " ") {
-      //   $scope.board["A1"] = computerMarker;
-      // }
-      // else if ($scope.board["A2"] != " " && $scope.board["B2"] != " ") {
-      //   $scope.board["C2"] = computerMarker;
-      // }
-      // else if ($scope.board["B2"] != " " && $scope.board["C2"] != " ") {
-      //   $scope.board["A2"] = computerMarker;
-      // }
-      // else if ($scope.board["A3"] != " " && $scope.board["B3"] != " ") {
-      //   $scope.board["C3"] = computerMarker;
-      // }
-      // else if ($scope.board["B3"] != " " && $scope.board["C3"] != " ") {
-      //   $scope.board["A3"] = computerMarker;
-      // }
-      // else if ($scope.board["A2"] != " " && $scope.board["B2"] != " ") {
-      //   $scope.board["C3"] = computerMarker;
-      // }
-      // else if ($scope.board["B2"] != " " && $scope.board["C3"] != " ") {
-      //   $scope.board["A1"] = computerMarker;
-      // }
-      // else if ($scope.board["C1"] != " " && $scope.board["B2"] != " ") {
-      //   $scope.board["A3"] = computerMarker;
-      // }
-      // else if ($scope.board["A3"] != " " && $scope.board["B2"] != " ") {
-      //   $scope.board["C1"] = computerMarker;
-      // }
+
+
       else {
+        //Doesn't always find empty position
+        console.log(" Greater Than 1 RANDOM ELSE")
         $scope.randoComputerMove();
       }
     }
-
-
-
+    else {
+      //Doesn't always find empty position
+      console.log("RANDOM ELSE")
+      $scope.randoComputerMove();
+    }
   }
 
 // TODO right now, this is just iterating through the object and placing the marker in numberical order. not exactly random.
+//Also doesn't seem to find last open position
   $scope.randoComputerMove = function() {
     var computerMarker = $scope.computerMarker;
     var boardKeys = Object.keys($scope.board); //returns an array of $scope.board keys
@@ -268,7 +229,7 @@ function($scope, $http) {
     }
   }
 
-  //create separate funciton that checks for open spaces. use open spaces as a global variable
+  //function that checks for open spaces. use open spaces as a global variable
   $scope.checkForOpenSpaces = function() {
     var openSpaces = [];
       for(var key in $scope.board) {
@@ -300,18 +261,20 @@ function($scope, $http) {
       || $scope.board[threeInARow[everyThirdInc][counter]] == "O" && $scope.board[threeInARow[everyThirdInc][counter + 1]] == "O" && $scope.board[threeInARow[everyThirdInc][counter + 2]] == "O") {
         $scope.winner = true;
             if($scope.board[threeInARow[everyThirdInc][counter]] == $scope.playerMarker) {
-              prompt("Player is a weeeeiner!");
-              $scope.restartGame();
+              prompt("Player is a winna!");
+              console.log("Winning moves = ", threeInARow[everyThirdInc]);
+              break
+              // $scope.restartGame();
             }
             else if ($scope.board[threeInARow[everyThirdInc][counter]] == $scope.computerMarker) {
               prompt("Computer Wins!");
-              $scope.restartGame();
+              console.log("Winning moves = ", threeInARow[everyThirdInc]);
+              break
+              // $scope.restartGame();
             }
         }
         //Tie (All Squares occupied and no winner)
         else if ($scope.allSquaresOccupied){
-          // prompt("It's a tie!");
-          // $scope.restartGame();
           break
 
         }
@@ -325,8 +288,7 @@ function($scope, $http) {
   }
 
 
-    $scope.choseMarker();
-    console.log("line 317 targetSquare =",  $scope.targetSquare)
+
 
 
 
