@@ -13,6 +13,8 @@ function($scope, $http) {
   var playerMoveCount = 0;
   $scope.defenseTargetSquare;
   $scope.attackTargetSquare;
+  $scope.winningMoves;
+  $scope.gameOver = false;
 
 
   $scope.board = {
@@ -40,7 +42,6 @@ function($scope, $http) {
       "C3": " "
     }
 
-
     $scope.chosenSquare = undefined;
     $scope.openSpaces = [];
     $scope.allSquaresOccupied = false;
@@ -49,6 +50,7 @@ function($scope, $http) {
     var playerMoveCount = 0;
     $scope.defenseTargetSquare = undefined;
     $scope.attackTargetSquare = undefined;
+    $scope.gameOver = false;
 
   }
 
@@ -120,23 +122,23 @@ function($scope, $http) {
     var counter = 0;
     for(var i = 0; i < twoInaRowArray.length; i++) {
       //TODO Each Condition needs to check for two cases: If Player two in a row = update defenseTargetSquare && If Computer Two in a row = update attackTargetSquare
-      console.log("Line 123 ", twoInaRowArray[enumerator][counter] + "= ",  $scope.board[twoInaRowArray[enumerator][counter]], "and ", twoInaRowArray[enumerator][counter + 1] + "= ",  $scope.board[twoInaRowArray[enumerator][counter + 1]]);
-      console.log("enumerator = ", enumerator + " and counter = ", counter);
-      console.log("==================================================");
+      // console.log("Line 123 ", twoInaRowArray[enumerator][counter] + "= ",  $scope.board[twoInaRowArray[enumerator][counter]], "and ", twoInaRowArray[enumerator][counter + 1] + "= ",  $scope.board[twoInaRowArray[enumerator][counter + 1]]);
+      // console.log("enumerator = ", enumerator + " and counter = ", counter);
+      // console.log("==================================================");
       if($scope.board[twoInaRowArray[enumerator][counter]] == $scope.computerMarker && $scope.board[twoInaRowArray[enumerator][counter + 1]] == $scope.computerMarker) {
         $scope.attackTargetSquare = twoInaRowArray[enumerator][counter + 2];
-        console.log("Two in a row if Attack ============================================ $scope.attackTargetSquare ", $scope.attackTargetSquare)
+        // console.log("Two in a row if Attack ============================================ $scope.attackTargetSquare ", $scope.attackTargetSquare)
 
          if($scope.board[twoInaRowArray[enumerator][counter]] == $scope.playerMarker && $scope.board[twoInaRowArray[enumerator][counter + 1]] == $scope.playerMarker) {
            $scope.defenseTargetSquare = twoInaRowArray[enumerator][counter + 2];
-           console.log("Two in a row NESTED if Defense ============================================ $scope.defenseTargetSquare ", $scope.defenseTargetSquare )
+          //  console.log("Two in a row NESTED if Defense ============================================ $scope.defenseTargetSquare ", $scope.defenseTargetSquare )
            break;
         }
 
       }
       else if($scope.board[twoInaRowArray[enumerator][counter]] == $scope.playerMarker && $scope.board[twoInaRowArray[enumerator][counter + 1]] == $scope.playerMarker) {
         $scope.defenseTargetSquare = twoInaRowArray[enumerator][counter + 2];
-        console.log("Two in a row Else IF DEFENSE ============================================ $scope.defenseTargetSquare ", $scope.defenseTargetSquare)
+        // console.log("Two in a row Else IF DEFENSE ============================================ $scope.defenseTargetSquare ", $scope.defenseTargetSquare)
         break;
       }
       enumerator++
@@ -234,6 +236,18 @@ function($scope, $http) {
     }
   }
 
+  $scope.showWinningMoves = function() {
+    var winningArray = $scope.winningMoves;
+    var boardLength = Object.keys($scope.board).length;
+    var boardKeys = Object.keys($scope.board);
+    for(var i = 0; i < boardLength; i++) {
+      if(boardKeys[i] != winningArray[0] && boardKeys[i] != winningArray[1] && boardKeys[i] != winningArray[2]) {
+        $scope.board[boardKeys[i]] = " ";
+      }
+
+    }
+  }
+
   //function that checks for open spaces. use open spaces as a global variable
   $scope.checkForOpenSpaces = function() {
     var openSpaces = [];
@@ -251,7 +265,6 @@ function($scope, $http) {
         }
   }
 
-
   $scope.checkForWinner = function() {
     $scope.twoInaRow()
     //Check if winning lines are occupied && occupied by the same marker
@@ -267,31 +280,37 @@ function($scope, $http) {
         $scope.winner = true;
             if($scope.board[threeInARow[everyThirdInc][counter]] == $scope.playerMarker) {
               prompt("Player is a winna!");
-              console.log("Winning moves = ", threeInARow[everyThirdInc]);
-              $scope.restartGame();
+              // console.log("Winning moves = ", threeInARow[everyThirdInc]);
+              $scope.winningMoves = threeInARow[everyThirdInc];
+              $scope.showWinningMoves();
+              $scope.gameOver = true;
+              // $scope.gameRestarter();
+
               break;
+
             }
             else if ($scope.board[threeInARow[everyThirdInc][counter]] == $scope.computerMarker) {
               prompt("Computer Wins!");
-              console.log("Winning moves = ", threeInARow[everyThirdInc]);
-              $scope.restartGame();
+              // console.log("Winning moves = ", threeInARow[everyThirdInc]);
+              $scope.winningMoves = threeInARow[everyThirdInc];
+              $scope.showWinningMoves();
+              // $scope.gameRestarter();
+              $scope.gameOver = true;
               break;
             }
         }
         //Tie (All Squares occupied and no winner)
         else if ($scope.allSquaresOccupied){
+          $scope.gameOver = true;
           break
 
         }
       else {
-        // console.log("making it to nope counter")
-        // console.log("NOPE COUNTER ", nopeCounter);
         everyThirdInc++;
         nopeCounter++;
       }
     }
   }
-
 
 
 
